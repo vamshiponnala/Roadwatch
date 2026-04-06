@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "3091680c-2a80-44f7-a863-aa740d0762d5"
+      }
+    },
+    "android": {
+      "package": "com.vamshiponnala.roadwatchapi"
+    }
+  }
+}
