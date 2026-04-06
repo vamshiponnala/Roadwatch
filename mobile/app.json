@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "RoadWatch",
+    "slug": "roadwatch",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#080d17"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#080d17"
+      },
+      "package": "in.roadwatch.app",
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyD7u2-8Lv8301J0kYNVQWF_Dg5vnu55ZCY"
+        }
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f8c4a392-a043-4165-b0bc-6a96bf67e735"
+      },
+      "apiUrl": "https://vigilant-broccoli-ww9jg96g9xv3vj97-5000.app.github.dev/api/v1",
+      "googleMapsKey": "AIzaSyD7u2-8Lv8301J0kYNVQWF_Dg5vnu55ZCY"
+    }
+  }
+}
