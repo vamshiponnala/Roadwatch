@@ -1,0 +1,28 @@
+{
+  "project_info": {
+    "project_number": "123456789",
+    "project_id": "roadwatch-app",
+    "storage_bucket": "roadwatch-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123456789:android:abcdef123456",
+        "android_client_info": {
+          "package_name": "in.roadwatch.app"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7u2-8Lv8301J0kYNVQWF_Dg5vnu55ZCY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
