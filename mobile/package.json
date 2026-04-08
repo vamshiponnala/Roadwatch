@@ -4,8 +4,9 @@
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "build:apk": "eas build -p android --profile preview"
+    "android": "expo run:android",
+    "build:apk": "eas build -p android --profile preview",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.20",
