@@ -78,7 +78,7 @@ const l = StyleSheet.create({
   avatarText:  { color:"#fff", fontWeight:"800" },
   name:        { color:"#fff", fontSize:14, fontWeight:"800" },
   reportCount: { color:"rgba(255,255,255,0.4)", fontSize:11, marginTop:2 },
-  points:      { color:"#f97316", fontSize:16, fontWeight:"900" },
+  points:      { color:"#f973gi16", fontSize:16, fontWeight:"900" },
   ptsLabel:    { color:"rgba(255,255,255,0.35)", fontSize:10 },
 });
 //
