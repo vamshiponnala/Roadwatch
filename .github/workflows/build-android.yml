@@ -1,0 +1,53 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Build Android APK with EAS
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          cd mobile
+          eas build --platform android --profile preview --non-interactive
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: mobile/build-output/
+          retention-days: 30
+        if: success()
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: android-build-${{ github.run_number }}
+          release_name: Android APK Build #${{ github.run_number }}
+          body: |
+            Automatic Android APK build from EAS.
+            Download the APK from the artifacts.
+            
+            **Build Details:**
+            - Commit: ${{ github.sha }}
+            - Author: ${{ github.actor }}
+            - Branch: ${{ github.ref }}
+        if: success()
