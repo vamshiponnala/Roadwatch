@@ -1,6 +1,4 @@
-cat > /workspaces/Roadwatch/mobile/App.js << 'EOF'
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -31,4 +29,3 @@ export default function App() {
     </GestureHandlerRootView>
   );
 }
-EOF
