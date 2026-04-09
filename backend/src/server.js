@@ -52,6 +52,6 @@ app.use((err, req, res, next) => {
 });
  
 const PORT = process.env.PORT || 5000;
-httpServer.listen(PORT, () => console.log(`🚔 RoadWatch API running on port ${PORT}`));
+httpServer.listen(PORT, '0.0.0.0', () => console.log(`🚔 RoadWatch API running on port ${PORT}`));
  
 module.exports = { app };

@@ -4,6 +4,14 @@
     "appVersionSource": "local"
   },
   "build": {
+    "development": {
+      "distribution": "internal",
+      "node": "20.19.4",
+      "android": {
+        "buildType": "apk",
+        "developmentClient": true
+      }
+    },
     "preview": {
       "distribution": "internal",
       "node": "20.19.4",

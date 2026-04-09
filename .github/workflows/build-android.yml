@@ -43,7 +43,7 @@ jobs:
           body: |
             Automatic Android APK build from EAS.
             Download the APK from the artifacts.
-            
+
             **Build Details:**
             - Commit: ${{ github.sha }}
             - Author: ${{ github.actor }}

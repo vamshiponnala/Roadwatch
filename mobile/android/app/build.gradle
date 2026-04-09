@@ -188,7 +188,7 @@ dependencies {
         }
     }
 
-    if (rootProject.ext.hermesEnabled.toBoolean()) {
+    if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
