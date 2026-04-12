@@ -15,37 +15,39 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
 
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
 
-      - name: Build Android APK with EAS
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install mobile dependencies
         run: |
           cd mobile
-          eas build --platform android --profile preview --non-interactive
+          npm ci
 
-      - name: Upload APK Artifact
+      - name: Accept Android SDK licenses and install components
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125"
+
+      - name: Build Android release APK (Gradle)
+        run: |
+          cd mobile/android
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Upload release APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk
-          path: mobile/build-output/
+          name: android-release-apk
+          path: mobile/android/app/build/outputs/apk/release/*.apk
           retention-days: 30
-        if: success()
 
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: android-build-${{ github.run_number }}
-          release_name: Android APK Build #${{ github.run_number }}
-          body: |
-            Automatic Android APK build from EAS.
-            Download the APK from the artifacts.
-
-            **Build Details:**
-            - Commit: ${{ github.sha }}
-            - Author: ${{ github.actor }}
-            - Branch: ${{ github.ref }}
-        if: success()
