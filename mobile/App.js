@@ -45,7 +45,7 @@ export default function App() {
 
   useEffect(() => {
     loadStoredAuth();
-  }, []);
+  }, [loadStoredAuth]);
 
   return (
     <StartupErrorBoundary>

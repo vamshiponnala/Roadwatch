@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator,
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthStore } from "../store/authStore";
 import { api } from "../services/api";
- 
+
 export default function LoginScreen() {
   const { login } = useAuthStore();
   const [phase,   setPhase]   = useState("phone");
@@ -12,7 +12,7 @@ export default function LoginScreen() {
   const [otp,     setOtp]     = useState("");
   const [loading, setLoading] = useState(false);
   const [mode,    setMode]    = useState("user");
- 
+
   const sendOtp = async () => {
     if (phone.length < 10) return Alert.alert("Error", "Enter a valid 10-digit mobile number.");
     setLoading(true);
@@ -20,22 +20,29 @@ export default function LoginScreen() {
       await api.post("/auth/send-otp", { phone });
       setPhase("otp");
     } catch (e) {
+      console.error("Send OTP error:", e);
       Alert.alert("Error", e.response?.data?.error || "Failed to send OTP. Try again.");
     } finally { setLoading(false); }
   };
- 
+
   const verifyOtp = async () => {
     if (otp.length < 6) return Alert.alert("Error", "Enter the 6-digit OTP.");
     setLoading(true);
     try {
       const { data } = await api.post("/auth/verify-otp", { phone, otp });
+      // Verify tokens exist before login
+      if (!data.tokens || !data.tokens.access || !data.tokens.refresh) {
+        throw new Error("Invalid token response from server");
+      }
       // If authority mode, update role on backend or handle locally
       await login(data.tokens, { ...data.user, role: mode === "admin" ? "AUTHORITY" : data.user.role });
     } catch (e) {
-      Alert.alert("Error", e.response?.data?.error || "Invalid OTP.");
+      console.error("Verify OTP error:", e);
+      Alert.alert("Error", e.response?.data?.error || e.message || "Invalid OTP.");
+      setOtp("");
     } finally { setLoading(false); }
   };
- 
+
   return (
     <SafeAreaView style={s.container}>
       <View style={s.logo}>
@@ -43,7 +50,7 @@ export default function LoginScreen() {
         <Text style={s.logoTitle}>RoadWatch</Text>
         <Text style={s.logoSub}>Safer roads, together.</Text>
       </View>
- 
+
       <View style={s.toggle}>
         {["user","admin"].map(m => (
           <TouchableOpacity key={m} onPress={() => setMode(m)}
@@ -54,7 +61,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
         ))}
       </View>
- 
+
       {phase === "phone" ? (
         <>
           <Text style={s.label}>Mobile Number</Text>
@@ -83,7 +90,7 @@ export default function LoginScreen() {
     </SafeAreaView>
   );
 }
- 
+
 const s = StyleSheet.create({
   container:       { flex:1, backgroundColor:"#080d17", padding:24, justifyContent:"center" },
   logo:            { alignItems:"center", marginBottom:40 },
@@ -106,4 +113,3 @@ const s = StyleSheet.create({
   btnText:         { color:"#fff", fontWeight:"900", fontSize:16 },
   backLink:        { color:"rgba(255,255,255,0.4)", textAlign:"center", marginTop:8 },
 });
- 
